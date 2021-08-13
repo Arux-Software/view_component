@@ -8,15 +8,20 @@ module ViewComponent
       partial = self.class.name.underscore
       block_content = block ? capture(&block) : nil
 
-      locals = instance_variables.map do |attribute|
-        [attribute.to_s.gsub("@", "").to_sym, instance_variable_get(attribute)]
-      end.to_h.merge(content: block_content)
+      attributes = instance_variables.map do |attribute|
+        [attribute, instance_variable_get(attribute)]
+      end.to_h
 
+      attributes.each do |key, value|
+        view_context.instance_variable_set(key, value)
+      end
 
       if block_content
-        view_context.concat(view_context.render(partial: "components/#{partial}", locals: locals))
+        view_context.concat(
+          view_context.render(partial: "components/#{partial}", locals: { content: block_content })
+        )
       else
-        view_context.render partial: "components/#{partial}", locals: locals
+        view_context.render partial: "components/#{partial}"
       end
     end
 
