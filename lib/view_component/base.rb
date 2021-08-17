@@ -6,7 +6,6 @@ module ViewComponent
       return "" unless render?
 
       partial = self.class.name.underscore
-      block_content = block ? capture(&block) : nil
 
       attributes = instance_variables.map do |attribute|
         [attribute, instance_variable_get(attribute)]
@@ -16,9 +15,9 @@ module ViewComponent
         view_context.instance_variable_set(key, value)
       end
 
-      if block_content
+      if block_given?
         view_context.concat(
-          view_context.render(partial: "components/#{partial}", locals: { content: block_content })
+          view_context.render(partial: "components/#{partial}", locals: { content: block.call })
         )
       else
         view_context.render partial: "components/#{partial}"
