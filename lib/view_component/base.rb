@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "view_component/collection"
-
 module ViewComponent
   class Base < ActionView::Base
     def render_in(view_context, &block)
