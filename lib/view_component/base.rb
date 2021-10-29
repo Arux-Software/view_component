@@ -30,5 +30,41 @@ module ViewComponent
     def render?
       true
     end
+
+    private
+
+    class << self
+      # Render a component for each element in a collection ([documentation](/guide/collections)):
+      #
+      #     render(ProductsComponent.with_collection(@products, foo: :bar))
+      #
+      # @param collection [Enumerable] A list of items to pass the ViewComponent one at a time.
+      # @param args [Arguments] Arguments to pass to the ViewComponent every time.
+      def with_collection(collection, **args)
+        Collection.new(self, collection, **args)
+      end
+
+      # Set the parameter name used when rendering elements of a collection ([documentation](/guide/collections)):
+      #
+      #     with_collection_parameter :item
+      #
+      # @param parameter [Symbol] The parameter name used when rendering elements of a collection.
+      def with_collection_parameter(parameter)
+        @provided_collection_parameter = parameter
+      end
+
+      # @private
+      def collection_parameter
+        if provided_collection_parameter
+          provided_collection_parameter
+        else
+          name && name.demodulize.underscore.chomp("_component").to_sym
+        end
+      end
+
+      def provided_collection_parameter
+        @provided_collection_parameter ||= nil
+      end
+    end
   end
 end
