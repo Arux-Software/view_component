@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 module ViewComponent
   class Base < ActionView::Base
     def render_in(view_context, &block)

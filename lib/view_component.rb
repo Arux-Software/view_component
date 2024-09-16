@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 require "action_view"
 require "view_component/base"
 require "view_component/render_monkey_patch"
