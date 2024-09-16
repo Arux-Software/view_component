@@ -15,10 +15,10 @@ module ViewComponent
 
       if block_given?
         view_context.concat(
-          view_context.render(partial: "components/#{partial}", locals: { content: view_context.capture(&block) })
+          view_context.render(file: partial, locals: { content: view_context.capture(&block) })
         )
       else
-        view_context.render partial: "components/#{partial}"
+        view_context.render file: partial
       end
     end
 
