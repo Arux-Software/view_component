@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ViewComponent
   module RenderMonkeyPatch # :nodoc:
     def render(options = {}, args = {}, &block)
