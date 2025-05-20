@@ -97,10 +97,6 @@ module ViewComponent
           get "#{options.preview_route}/*path", to: "#{preview_controller}#previews", as: :preview_view_component, internal: true
         end
       end
-
-      app.executor.to_run :before do
-        CompileCache.invalidate! unless ActionView::Base.cache_template_loading
-      end
     end
   end
 end
